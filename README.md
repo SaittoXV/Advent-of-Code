@@ -13,10 +13,10 @@ AdventOfCode/
 ├── day1/
 │   ├── part1.py
 │   ├── part2.py
-│   └── README.md
+│   └── input.txt
 ├── day2/
 │   ├── part1.py
 │   ├── part2.py
-│   └── README.md
+│   └── input.txt
 └── README.md
 
