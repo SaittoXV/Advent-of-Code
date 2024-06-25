@@ -1,6 +1,6 @@
 import re
 
-with open("Day 3\inputTest.txt") as f:
+with open("Day 3\inputNew.txt") as f:
     fileInput = f.read()
 
 totalValue = 0
@@ -18,7 +18,6 @@ for countList, value in enumerate(fileInput.split("\n")):
         dictIndexNumber.update({"end":value.index(item)+len(item)})
         dictIndexNumber.update({"start":value.index(item)})
         for number in range(dictIndexNumber["start"],dictIndexNumber["end"],1):
-            print(value[number])
             nextItem = countList + 1
             beforeItem = countList - 1
             try:
@@ -26,17 +25,21 @@ for countList, value in enumerate(fileInput.split("\n")):
                     if (fileInput.split("\n")[beforeItem][number] == "-" or 
                         fileInput.split("\n")[beforeItem][number+1] == "-" or 
                         fileInput.split("\n")[beforeItem][number-1] == "-" or 
-                        fileInput.split("\n")[countList][number+1] == "-"):
-                            totalValue += int(item)
+                        fileInput.split("\n")[countList][number+1] == "-" or 
+                        fileInput.split("\n")[countList][number-1] == "-"):
+                            totalValue  = totalValue + int(item)
+                            print("Adding " + str(item))
                             break
                 if (fileInput.split("\n")[nextItem][number] == "-" or 
                     fileInput.split("\n")[nextItem][number+1] == "-" or 
-                    fileInput.split("\n")[nextItem][number-1] == "-" or 
-                    fileInput.split("\n")[countList][number+1] == "-"):
+                    fileInput.split("\n")[nextItem][number-1] == "-" or
+                    fileInput.split("\n")[countList][number+1] == "-" or 
+                    fileInput.split("\n")[countList][number-1] == "-"):
                         totalValue += int(item)
+                        print("Adding " + str(item))
                         break
             except:
-                print("List out of range")
+              print("List out of range")
 print("the total value is "+str(totalValue))
 
 # if fileInput.split("\n")[countList][countString] == " " or value[countString+1] == " ":
