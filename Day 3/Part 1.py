@@ -24,4 +24,5 @@ for row, column in coordinateFirstChar:
         column += 1
     summationNumber.append(int(fullString))
 
+print(summationNumber)
 print(sum(summationNumber))

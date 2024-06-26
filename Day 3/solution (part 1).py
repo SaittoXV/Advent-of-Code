@@ -1,5 +1,5 @@
 
-INPUT_FILE_PATH = 'Day 3/input.txt'
+INPUT_FILE_PATH = 'Day 3/inputNew.txt'
 
 # COORDINATES: adjacent delta coordinates
 COORDINATES = [(1, 0), (0, 1), (-1, 0), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)] 
