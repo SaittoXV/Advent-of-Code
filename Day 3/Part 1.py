@@ -1,45 +1,27 @@
-import re
+with open("Day 3\input.txt") as file:
+    inputFileRow = file.readlines()
 
-with open("Day 3\inputNew.txt") as f:
-    fileInput = f.read()
+coordinateFirstChar = set()
 
-totalValue = 0
+for indexRow, row in enumerate(inputFileRow):
+    for indexColumn, column in enumerate(row):
+        if column.isdigit() or column == ".":
+            continue
+        for currentRow in [indexRow-1,indexRow,indexRow+1]:
+            for currentColumn in [indexColumn-1,indexColumn,indexColumn+1]:
+                if currentRow < 0 or currentRow >= len(inputFileRow) or currentColumn < 0 or currentColumn >= len(inputFileRow[currentRow]) or not inputFileRow[currentRow][currentColumn].isdigit():
+                    continue
+                while currentColumn > 0 and inputFileRow[currentRow][currentColumn-1].isdigit():
+                    currentColumn -=1
+                coordinateFirstChar.add((currentRow,currentColumn))
 
-fileInput = fileInput.replace("."," ")
-fileInput = re.sub("[*#+$/=&!@%^()-]","-",fileInput) 
-# [0-9]|[*#+$/=&!@%^()-]
+summationNumber = []
 
+for row, column in coordinateFirstChar:
+    fullString = ""
+    while column < len(inputFileRow[row]) and inputFileRow[row][column].isdigit():
+        fullString += inputFileRow[row][column]
+        column += 1
+    summationNumber.append(int(fullString))
 
-for countList, value in enumerate(fileInput.split("\n")):
-    print(value + " -> " +  str(countList))
-    tempList = re.findall("[0-9]+",value)
-    for countNumber, item in enumerate(tempList):
-        dictIndexNumber =  {}
-        dictIndexNumber.update({"end":value.index(item)+len(item)})
-        dictIndexNumber.update({"start":value.index(item)})
-        for number in range(dictIndexNumber["start"],dictIndexNumber["end"],1):
-            nextItem = countList + 1
-            beforeItem = countList - 1
-            try:
-                if countList > 0:
-                    if (fileInput.split("\n")[beforeItem][number] == "-" or 
-                        fileInput.split("\n")[beforeItem][number+1] == "-" or 
-                        fileInput.split("\n")[beforeItem][number-1] == "-" or 
-                        fileInput.split("\n")[countList][number+1] == "-" or 
-                        fileInput.split("\n")[countList][number-1] == "-"):
-                            totalValue  = totalValue + int(item)
-                            print("Adding " + str(item))
-                            break
-                if (fileInput.split("\n")[nextItem][number] == "-" or 
-                    fileInput.split("\n")[nextItem][number+1] == "-" or 
-                    fileInput.split("\n")[nextItem][number-1] == "-" or
-                    fileInput.split("\n")[countList][number+1] == "-" or 
-                    fileInput.split("\n")[countList][number-1] == "-"):
-                        totalValue += int(item)
-                        print("Adding " + str(item))
-                        break
-            except:
-              print("List out of range")
-print("the total value is "+str(totalValue))
-
-# if fileInput.split("\n")[countList][countString] == " " or value[countString+1] == " ":
+print(sum(summationNumber))
