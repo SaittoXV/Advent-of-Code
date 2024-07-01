@@ -1,10 +1,10 @@
 import re
+with open("Day 4\inputTest.txt") as file:
+    inputFile = file.readlines()
+
+instancesCardsNumber = {}
 
 def main():
-    with open("Day 4\inputTest.txt") as file:
-        inputFile = file.readlines()
-
-
     for indexRow, row in enumerate(inputFile):
         matchCase = []
         cardNumber = re.findall("Card [0-9]+",row)
@@ -21,6 +21,12 @@ def main():
                     matchCase.append(columnPartTwo)
         for length in range(int(cardNumber) + 1,len(matchCase) + int(cardNumber) + 1):
             print(str(cardNumber) + ":"+ str(length))
+            if length in instancesCardsNumber:
+                instancesCardsNumber.update({length:instancesCardsNumber[length]+1})
+            else:
+                instancesCardsNumber.update({length:1})
+
+    print(instancesCardsNumber)
 
 if __name__=="__main__":
     main()
