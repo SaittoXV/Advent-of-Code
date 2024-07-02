@@ -15,18 +15,24 @@ def main():
         partOne = partOne.strip().split()
         partTwo = currentRow.split("|")[1]
         partTwo = partTwo.strip().split()
+        if cardNumber in instancesCardsNumber:
+            instancesCardsNumber.update({cardNumber:instancesCardsNumber[cardNumber]+1})
+        else:
+            instancesCardsNumber.update({cardNumber:1})
+
         for indexColumn, column in enumerate(partOne):
             for columnPartTwo in partTwo:
                 if str(partOne[indexColumn]).strip() == str(columnPartTwo).strip():
                     matchCase.append(columnPartTwo)
         for length in range(int(cardNumber) + 1,len(matchCase) + int(cardNumber) + 1):
             print(str(cardNumber) + ":"+ str(length))
-            if length in instancesCardsNumber:
-                instancesCardsNumber.update({length:instancesCardsNumber[length]+1})
+            if str(length) in instancesCardsNumber:
+                instancesCardsNumber.update({str(length):instancesCardsNumber[str(length)]+1})
+                print(instancesCardsNumber)
             else:
-                instancesCardsNumber.update({length:1})
-
-    print(instancesCardsNumber)
-
+                instancesCardsNumber.update({str(length):1})
+                print(instancesCardsNumber)
+        
 if __name__=="__main__":
     main()
+    print("The Instances of All Card is " + str(instancesCardsNumber))
