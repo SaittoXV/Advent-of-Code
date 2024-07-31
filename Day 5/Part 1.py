@@ -1,15 +1,43 @@
 import re
+from collections import OrderedDict
 
-with open("Day 5\inputTest.txt") as file:
-    fileInput = file.readlines()
 
-seedList = []
+def main():
+    with open("Day 5\inputTest.txt") as file:
+        fileInput = file.read()
 
-seedLineItem = fileInput[0].split()
+    fileList = fileInput.split("\n\n")
 
-for item in seedLineItem:
-    if item.isnumeric():
-        seedList.append(item)
+    # Get the Seed Number
+    seedDict = {}
+    seedLineText = fileList[0].split()
 
-seedList.sort()
-print(seedList)
+    for item in seedLineText:
+        if item.isnumeric():
+            seedDict[int(item)] = int(item)
+    print("This is the seed dictionary:")
+    print(seedDict)
+
+    # Loop File Input List
+    for item in range(1, len(fileList)):
+        print("The current list is ")
+        print(fileList[item])
+        mapList = re.sub("[a-z-A-Z]+ map:", "",
+                         fileList[item]).strip().split("\n")
+
+        for line in mapList:
+            value = line.split()[1]
+            rangeValue = line.split()[2]
+
+            for dictValue in seedDict.values():
+                if dictValue >= int(value) and dictValue <= int(rangeValue)+int(value):
+                    print(dictValue)
+                    findMapping()
+
+
+def findMapping():
+    print("In Range")
+
+
+if __name__ == "__main__":
+    main()
