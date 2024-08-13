@@ -28,15 +28,31 @@ def main():
         for line in mapList:
             value = line.split()[1]
             rangeValue = line.split()[2]
+            findValue = line.split()[0]
 
-            for dictValue in seedDict.values():
-                if dictValue >= int(value) and dictValue <= int(rangeValue)+int(value):
+            for dictKey, dictValue in seedDict.items():
+                if dictValue >= int(value) and dictValue <= int(rangeValue)+int(value)-1:
+                    print("The current dictionary value is ")
                     print(dictValue)
-                    findMapping()
+                    foundValue = findMapping(int(dictValue), int(value),
+                                             int(rangeValue), int(findValue))
+                    seedDict[dictKey] = foundValue
+                else:
+                    seedDict[dictKey] = dictValue
+        print("Break Point")
 
 
-def findMapping():
-    print("In Range")
+def findMapping(dictValue, value, rangeValue, findValue):
+    dictMapping = {}
+    findValue = findValue - 1
+    rangeValue = rangeValue + value
+    for currentValue in range(value, rangeValue):
+        dictMapping[currentValue] = findValue + 1
+        findValue = findValue + 1
+    print(dictMapping)
+    for item in dictMapping.keys():
+        if item == dictValue:
+            return dictMapping[item]
 
 
 if __name__ == "__main__":
