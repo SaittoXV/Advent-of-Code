@@ -25,21 +25,24 @@ def main():
         mapList = re.sub("[a-z-A-Z]+ map:", "",
                          fileList[item]).strip().split("\n")
 
+        seedList = []
         for line in mapList:
             value = line.split()[1]
             rangeValue = line.split()[2]
             findValue = line.split()[0]
 
             for dictKey, dictValue in seedDict.items():
-                if dictValue >= int(value) and dictValue <= int(rangeValue)+int(value)-1:
-                    print("The current dictionary value is ")
-                    print(dictValue)
+                if dictValue >= int(value) and dictValue <= int(rangeValue)+int(value)-1 and not (dictKey in seedList):
+                    print("Key " + str(dictKey))
+                    print("Value " + str(dictValue))
                     foundValue = findMapping(int(dictValue), int(value),
                                              int(rangeValue), int(findValue))
                     seedDict[dictKey] = foundValue
+                    seedList.append(dictKey)
                 else:
                     seedDict[dictKey] = dictValue
-        print("Break Point")
+    print("Break Point")
+    print(seedDict)
 
 
 def findMapping(dictValue, value, rangeValue, findValue):
