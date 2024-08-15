@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 
 def main():
-    with open("Day 5\inputTest.txt") as file:
+    with open("Day 5\input.txt") as file:
         fileInput = file.read()
 
     fileList = fileInput.split("\n\n")
@@ -43,19 +43,23 @@ def main():
                     seedDict[dictKey] = dictValue
     print("Break Point")
     print(seedDict)
+    dictSorted = dict(sorted(seedDict.items(), key=lambda item: item[1]))
+    print(dictSorted)
 
 
 def findMapping(dictValue, value, rangeValue, findValue):
+
+    return dictValue - (value - findValue)
+
     dictMapping = {}
-    findValue = findValue - 1
-    rangeValue = rangeValue + value
-    for currentValue in range(value, rangeValue):
-        dictMapping[currentValue] = findValue + 1
-        findValue = findValue + 1
+    # x = (i for i in range(value, rangeValue+value))
+    # y = (i for i in range(findValue, rangeValue+findValue))
+    # for currentX in iter(x):
+    #     currentY = next(iter(y))
+    #     if currentX == dictValue:
+    #         dictMapping[currentX] = currentY
+    #         return dictMapping[currentX]
     print(dictMapping)
-    for item in dictMapping.keys():
-        if item == dictValue:
-            return dictMapping[item]
 
 
 if __name__ == "__main__":
