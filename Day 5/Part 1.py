@@ -51,7 +51,7 @@ def findMapping(dictValue, value, rangeValue, findValue):
 
     return dictValue - (value - findValue)
 
-    dictMapping = {}
+    # dictMapping = {}
     # x = (i for i in range(value, rangeValue+value))
     # y = (i for i in range(findValue, rangeValue+findValue))
     # for currentX in iter(x):
@@ -59,7 +59,7 @@ def findMapping(dictValue, value, rangeValue, findValue):
     #     if currentX == dictValue:
     #         dictMapping[currentX] = currentY
     #         return dictMapping[currentX]
-    print(dictMapping)
+    # print(dictMapping)
 
 
 if __name__ == "__main__":
