@@ -1,89 +1,68 @@
-import re
-from collections import OrderedDict
+# import re
+
+# with open("Day 5\inputTest.txt") as file:
+#     inputFile = file.readlines()
+
+# seedRange = []
+# blockMap = []
+# seed = list(map(int, inputFile[0].split(":")[1].split()))
+
+# seedRange = [(seed[index], seed[index] + seed[index+1])
+#              for index in range(0, len(seed), 2)]
+
+# del inputFile[0]
+# blockMap = [list(map(int, item.strip().split()))
+#             for item in inputFile if ":" not in (item) and item != "\n"]
 
 
-def main():
-    with open("Day 5\input.txt") as file:
-        fileInput = file.read()
+# new = []
+# while len(seedRange) > 0:
+#     start, end = seedRange.pop()
+#     for destination, source, rangeItem in blockMap:
+#         overlapStart = max(start, source)
+#         overlapEnd = min(end, source + rangeItem)
+#         if overlapStart < overlapEnd:
+#             new.append((overlapStart - source + destination,
+#                         overlapEnd - source + destination))
+#             if overlapStart > start:
+#                 seedRange.append((start, overlapStart))
+#             if end > overlapEnd:
+#                 seedRange.append((overlapEnd, end))
+#             break
+#         else:
+#             new.append((start, end))
+# seedRange = new
 
-    fileList = fileInput.split("\n\n")
+# print(min(seedRange)[0])
 
-    # Get the Seed Number
-    seedDict = {}
-    seedLineText = fileList[0].split()
+inputs, *blocks = open("Day 5\input.txt").read().split("\n\n")
 
-    for indexItem, item in enumerate(seedLineText):
-        if item.isnumeric():
-            seedDict[int(item)] = int(item)
-    print("This is the seed dictionary:")
-    print(seedDict)
+inputs = list(map(int, inputs.split(":")[1].split()))
 
-    seedDict = rangeSeedDict(seedDict)
+seeds = []
 
-    # Loop File Input List
-    for item in range(1, len(fileList)):
-        print("The current list is ")
-        print(fileList[item])
-        mapList = re.sub("[a-z-A-Z]+ map:", "",
-                         fileList[item]).strip().split("\n")
+for i in range(0, len(inputs), 2):
+    seeds.append((inputs[i], inputs[i] + inputs[i + 1]))
 
-        seedList = []
-        for line in mapList:
-            value = line.split()[1]
-            rangeValue = line.split()[2]
-            findValue = line.split()[0]
+for block in blocks:
+    ranges = []
+    for line in block.splitlines()[1:]:
+        ranges.append(list(map(int, line.split())))
+    new = []
+    while len(seeds) > 0:
+        s, e = seeds.pop()
+        for a, b, c in ranges:
+            os = max(s, b)
+            oe = min(e, b + c)
+            if os < oe:
+                new.append((os - b + a, oe - b + a))
+                if os > s:
+                    seeds.append((s, os))
+                if e > oe:
+                    seeds.append((oe, e))
+                break
+        else:
+            new.append((s, e))
+    seeds = new
 
-            for dictKey, dictValue in seedDict.items():
-                if dictValue >= int(value) and dictValue <= int(rangeValue)+int(value)-1 and not (dictKey in seedList):
-                    print("Key " + str(dictKey))
-                    print("Value " + str(dictValue))
-                    foundValue = findMapping(int(dictValue), int(value),
-                                             int(rangeValue), int(findValue))
-                    seedDict[dictKey] = foundValue
-                    seedList.append(dictKey)
-                else:
-                    seedDict[dictKey] = dictValue
-    print("Break Point")
-    print(seedDict)
-    dictSorted = dict(sorted(seedDict.items(), key=lambda item: item[1]))
-    print(dictSorted)
-
-
-def findMapping(dictValue, value, rangeValue, findValue):
-
-    return dictValue - (value - findValue)
-
-    # dictMapping = {}
-    # x = (i for i in range(value, rangeValue+value))
-    # y = (i for i in range(findValue, rangeValue+findValue))
-    # for currentX in iter(x):
-    #     currentY = next(iter(y))
-    #     if currentX == dictValue:
-    #         dictMapping[currentX] = currentY
-    #         return dictMapping[currentX]
-    # print(dictMapping)
-
-
-def rangeSeedDict(seedDict):
-    rangeList = []
-    deleteItem = []
-
-    for indexSeed, seed in enumerate(seedDict.keys()):
-        if indexSeed % 2 == 1:
-            deleteItem.append(seed)
-
-    for item in deleteItem:
-        del seedDict[item]
-
-    for indexItem, item in enumerate(seedDict.keys()):
-        for i in range(item+1, deleteItem[indexItem]+item):
-            rangeList.append(i)
-
-    for item in rangeList:
-        seedDict[int(item)] = int(item)
-
-    return seedDict
-
-
-if __name__ == "__main__":
-    main()
+print(min(seeds)[0])
